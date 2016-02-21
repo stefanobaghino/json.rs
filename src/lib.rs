@@ -26,7 +26,6 @@ impl fmt::Display for Json {
                     write!(f, "\"{}\":{}", prop.0, prop.1);
                 }
                 "}".fmt(f);
-                Result::Ok(())
             }
             Json::Arr(ref arr) => {
                 "[".fmt(f);
@@ -37,9 +36,9 @@ impl fmt::Display for Json {
                     item.fmt(f);
                 }
                 "]".fmt(f);
-                Result::Ok(())
             }
         }
+        Ok(())
     }
 }
 
