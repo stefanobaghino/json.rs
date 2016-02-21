@@ -29,7 +29,7 @@ impl fmt::Display for Json {
                 for prop in props {
                     try!(write!(f, r#","{}":{}"#, prop.0, prop.1));
                 }
-                try!("}".fmt(f));
+                "}".fmt(f)
             }
             Json::Arr(ref arr) => {
                 try!("[".fmt(f));
@@ -40,10 +40,9 @@ impl fmt::Display for Json {
                 for item in items {
                     try!(write!(f, ",{}", item));
                 }
-                try!("]".fmt(f));
+                "]".fmt(f)
             }
         }
-        Ok(())
     }
 }
 
