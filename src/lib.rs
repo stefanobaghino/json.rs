@@ -1,3 +1,7 @@
+#![feature(test)]
+
+extern crate test;
+
 use std::fmt;
 
 pub enum Json {
@@ -57,17 +61,24 @@ impl fmt::Display for JsonVal {
 mod tests {
     use super::Json;
     use super::JsonVal;
+    use test::Bencher;
+    fn test_json() -> Json {
+        Json::Obj(vec![(String::from("name"), JsonVal::Str(String::from("Stefano"))),
+                       (String::from("age"), JsonVal::Num(31.0)),
+                       (String::from("fav_pls"),
+                        JsonVal::Composite(Json::Arr(vec![JsonVal::Str(String::from("scala")),
+                                                          JsonVal::Str(String::from("rust"))]))),
+                       (String::from("clue"), JsonVal::Null)])
+    }
     #[test]
     fn basic_test() {
-        let test_json: Json =
-            Json::Obj(vec![(String::from("name"), JsonVal::Str(String::from("Stefano"))),
-                           (String::from("age"), JsonVal::Num(31.0)),
-                           (String::from("fav_pls"),
-                            JsonVal::Composite(Json::Arr(vec![JsonVal::Str(String::from("scala")),
-                                                              JsonVal::Str(String::from("rust"))]))),
-                           (String::from("clue"), JsonVal::Null)]);
-        let actual_json = format!("{}", test_json);
+        let actual_json = format!("{}", test_json());
         let expected_json = r#"{"name":"Stefano","age":31,"fav_pls":["scala","rust"],"clue":null}"#;
         assert_eq!(actual_json, expected_json);
+    }
+    #[bench]
+    fn basic_bench(b: &mut Bencher) {
+        let test_json = test_json();
+        b.iter(|| format!("{}", test_json));
     }
 }
