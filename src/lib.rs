@@ -22,21 +22,23 @@ impl fmt::Display for Json {
         match *self {
             Json::Obj(ref obj) => {
                 try!("{".fmt(f));
-                for (n, prop) in obj.iter().enumerate() {
-                    if n != 0 {
-                        try!(",".fmt(f));
-                    }
-                    try!(write!(f, r#""{}":{}"#, prop.0, prop.1));
+                let mut props = obj.iter();
+                if let Some(prop) = props.next() {
+                    try!(write!(f, r#""{}:{}"#, prop.0, prop.1));
+                }
+                for prop in props {
+                    try!(write!(f, r#"",{}":{}"#, prop.0, prop.1));
                 }
                 try!("}".fmt(f));
             }
             Json::Arr(ref arr) => {
                 try!("[".fmt(f));
-                for (n, item) in arr.iter().enumerate() {
-                    if n != 0 {
-                        try!(",".fmt(f));
-                    }
+                let mut items = arr.iter();
+                if let Some(item) = items.next() {
                     try!(item.fmt(f));
+                }
+                for item in items {
+                    try!(write!(f, ",{}", item));
                 }
                 try!("]".fmt(f));
             }
