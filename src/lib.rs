@@ -69,9 +69,10 @@ mod tests {
         let test_json: Json =
             Json::Obj(vec![(String::from("name"), JsonVal::Str(String::from("Stefano"))),
                            (String::from("age"), JsonVal::Num(31.0)),
-                           (String::from("fav_pls"), JsonVal::Composite(
-                                Json::Arr(vec![JsonVal::Str(String::from("scala")),
-                                               JsonVal::Str(String::from("rust"))]))),
+                           (String::from("fav_pls"),
+                            JsonVal::Composite(Json::Arr(vec![JsonVal::Str(String::from("scal\
+                                                                                         a")),
+                                                              JsonVal::Str(String::from("rust"))]))),
                            (String::from("clue"), JsonVal::Null)]);
         let actual_json = format!("{}", test_json);
         let expected_json = "{\
