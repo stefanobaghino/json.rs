@@ -24,10 +24,10 @@ impl fmt::Display for Json {
                 try!("{".fmt(f));
                 let mut props = obj.iter();
                 if let Some(prop) = props.next() {
-                    try!(write!(f, r#""{}:{}"#, prop.0, prop.1));
+                    try!(write!(f, r#""{}":{}"#, prop.0, prop.1));
                 }
                 for prop in props {
-                    try!(write!(f, r#"",{}":{}"#, prop.0, prop.1));
+                    try!(write!(f, r#","{}":{}"#, prop.0, prop.1));
                 }
                 try!("}".fmt(f));
             }
