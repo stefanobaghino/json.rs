@@ -13,7 +13,6 @@ pub enum JsonVal {
     Null,
 }
 
-#[allow(unused_must_use)]
 impl fmt::Display for Json {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
