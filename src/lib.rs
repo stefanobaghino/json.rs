@@ -23,10 +23,7 @@ impl fmt::Display for Json {
                     if n != 0 {
                         ",".fmt(f);
                     }
-                    "\"".fmt(f);
-                    prop.0.fmt(f);
-                    "\":".fmt(f);
-                    prop.1.fmt(f);
+                    write!(f, "\"{}\":{}", prop.0, prop.1);
                 }
                 "}".fmt(f);
                 Result::Ok(())
