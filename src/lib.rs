@@ -44,11 +44,11 @@ impl fmt::Display for Json {
 impl fmt::Display for JsonVal {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            JsonVal::Str(ref string) => write!(f, "\"{}\"", string),
-            JsonVal::Num(number) => write!(f, "{}", number),
-            JsonVal::Composite(ref json) => write!(f, "{}", json),
-            JsonVal::Bool(boolean) => write!(f, "{}", boolean),
-            JsonVal::Null => write!(f, "null"),
+            JsonVal::Str(ref string) => write!(f, r#""{}""#, string),
+            JsonVal::Num(number) => number.fmt(f),
+            JsonVal::Composite(ref json) => json.fmt(f),
+            JsonVal::Bool(boolean) => boolean.fmt(f),
+            JsonVal::Null => "null".fmt(f),
         }
     }
 }
