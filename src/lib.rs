@@ -47,10 +47,14 @@ impl fmt::Display for Json {
     }
 }
 
+fn escape(s: &String) -> String {
+    s.replace("\"", "\\\"")
+}
+
 impl fmt::Display for JsonVal {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            JsonVal::Str(ref string) => write!(f, r#""{}""#, string),
+            JsonVal::Str(ref string) => write!(f, r#""{}""#, escape(string)),
             JsonVal::Num(number) => number.fmt(f),
             JsonVal::Composite(ref json) => json.fmt(f),
             JsonVal::Bool(boolean) => boolean.fmt(f),
@@ -59,10 +63,23 @@ impl fmt::Display for JsonVal {
     }
 }
 
+#[test]
+fn escape_test() {
+    let empty = String::from("");
+    let simple = String::from("string");
+    let qm_inside = String::from("so i said \"do it\" and he did it");
+    let qm_outside = String::from("\"i have a bad feeling about this\"");
+    assert_eq!(escape(&empty), empty);
+    assert_eq!(escape(&simple), simple);
+    assert_eq!(escape(&qm_inside),
+               String::from("so i said \\\"do it\\\" and he did it"));
+    assert_eq!(escape(&qm_outside),
+               String::from("\\\"i have a bad feeling about this\\\""));
+}
+
 #[cfg(test)]
 mod tests {
-    use super::Json;
-    use super::JsonVal;
+    use super::*;
     use test::Bencher;
     fn test_json() -> Json {
         Json::Obj(vec![(String::from("name"), JsonVal::Str(String::from("Stefano"))),
