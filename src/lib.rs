@@ -22,7 +22,7 @@ impl fmt::Display for Json {
                     if n != 0 {
                         try!(",".fmt(f));
                     }
-                    try!(write!(f, "\"{}\":{}", prop.0, prop.1));
+                    try!(write!(f, r#""{}":{}"#, prop.0, prop.1));
                 }
                 try!("}".fmt(f));
             }
@@ -68,11 +68,7 @@ mod tests {
                                                               JsonVal::Str(String::from("rust"))]))),
                            (String::from("clue"), JsonVal::Null)]);
         let actual_json = format!("{}", test_json);
-        let expected_json = "{\
-                                \"name\":\"Stefano\",\
-                                \"age\":31,\
-                                \"fav_pls\":[\"scala\",\"rust\"],\
-                                \"clue\":null}";
+        let expected_json = r#"{"name":"Stefano","age":31,"fav_pls":["scala","rust"],"clue":null}"#;
         assert_eq!(actual_json, expected_json);
     }
 }
