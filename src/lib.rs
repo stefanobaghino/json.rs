@@ -17,24 +17,24 @@ impl fmt::Display for Json {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             Json::Obj(ref obj) => {
-                "{".fmt(f);
+                try!("{".fmt(f));
                 for (n, prop) in obj.iter().enumerate() {
                     if n != 0 {
-                        ",".fmt(f);
+                        try!(",".fmt(f));
                     }
-                    write!(f, "\"{}\":{}", prop.0, prop.1);
+                    try!(write!(f, "\"{}\":{}", prop.0, prop.1));
                 }
-                "}".fmt(f);
+                try!("}".fmt(f));
             }
             Json::Arr(ref arr) => {
-                "[".fmt(f);
+                try!("[".fmt(f));
                 for (n, item) in arr.iter().enumerate() {
                     if n != 0 {
-                        ",".fmt(f);
+                        try!(",".fmt(f));
                     }
-                    item.fmt(f);
+                    try!(item.fmt(f));
                 }
-                "]".fmt(f);
+                try!("]".fmt(f));
             }
         }
         Ok(())
