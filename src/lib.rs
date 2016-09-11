@@ -1,7 +1,3 @@
-#![feature(test)]
-
-extern crate test;
-
 use std::fmt;
 
 pub enum Json {
@@ -79,7 +75,6 @@ fn escape_test() {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use test::Bencher;
     fn test_json() -> Json {
         Json::Obj(vec![(String::from("name"), JsonVal::Str(String::from("Stefano"))),
                        (String::from("age"), JsonVal::Num(31.0)),
@@ -93,10 +88,5 @@ mod tests {
         let actual_json = format!("{}", test_json());
         let expected_json = r#"{"name":"Stefano","age":31,"fav_pls":["scala","rust"],"clue":null}"#;
         assert_eq!(actual_json, expected_json);
-    }
-    #[bench]
-    fn basic_bench(b: &mut Bencher) {
-        let test_json = test_json();
-        b.iter(|| format!("{}", test_json));
     }
 }
